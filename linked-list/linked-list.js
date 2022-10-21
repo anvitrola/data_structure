@@ -15,7 +15,7 @@ function LinkedList() {
 
   //default insertion is at the last position
   function insert(value) {
-    const newNode = node(value);
+    const newNode = Node(value);
 
     //is the linked-list empty?
     if (size === 0) {
@@ -29,7 +29,7 @@ function LinkedList() {
     //linking our new node to the last node by setting it as new node's previousNode prop
     newNode.previousNode = lastNode;
     //linking last node nextNode property to the node we just added
-    last.nextNode = newNode;
+    lastNode.nextNode = newNode;
 
     //now, last node will be our recently added node
     lastNode = newNode;
@@ -38,19 +38,52 @@ function LinkedList() {
     size++;
   }
 
-  function insertAt() {}
+  //to-do
+  function insertAt(value, position) {
+  }
 
-  function remove() {}
+  function remove(value) {
+    const nodeToRemove = getNode(value);
 
-  function getNode() {}
+    if (nodeToRemove === null)
+      return new Error("Impossible to remove null element");
+
+    if (nodeToRemove.previousNode !== null) {
+      nodeToRemove.previousNode.nextNode = nodeToRemove.nextNode;
+    }
+
+    if (nodeToRemove.nextNode !== null) {
+      nodeToRemove.nextNode.previousNode = nodeToRemove.previousNode;
+    }
+
+    size--;
+  }
+
+  function getNode(value) {
+    if (firstNode === null) return;
+
+    for (let i = 0, node = firstNode; i < size; i++, node = node.nextNode) {
+      if (node.getValue() == value) return node;
+    }
+
+    return null;
+  }
 
   function length() {
     return size;
   }
 
-  function printList() {}
+  function printList() {
+    const list = [];
 
-  function node(value) {
+    for (let i = 0, node = firstNode; i < size; i++, node = node.nextNode) {
+      list.push(node.getValue());
+    }
+
+    return list;
+  }
+
+  function Node(value) {
     let previousNode = null;
     let nextNode = null;
 
@@ -59,7 +92,6 @@ function LinkedList() {
     }
 
     return {
-      insert,
       getValue,
       previousNode,
       nextNode,
@@ -72,6 +104,7 @@ function LinkedList() {
     remove,
     getNode,
     length,
+    printList,
   };
 }
 
